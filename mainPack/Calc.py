@@ -12,8 +12,8 @@ class App():
         self.window.resizable(False, False)
         self.buttons = []
         self.display = None
-        self.dispVar = None
-        self.butVars = []
+        self.displayVar = None
+        self.buttonVars = []
         self.__generateButtons()
         self.__buildGUI()
 
@@ -21,27 +21,24 @@ class App():
         this = self
 
         def x():
-            input = this.dispVar.get()
+            input = this.displayVar.get()
             if len(input) >= 2 and isNumber(input[len(input) - 1]) and isNumber(chr):
-                print("B")
-                this.dispVar.set(input + chr)
+                this.displayVar.set(input + chr)
             elif input[-1:] != '.' and chr != '.':
-                print("A")
-                this.dispVar.set(input + ' ' + chr)
+                this.displayVar.set(input + ' ' + chr)
             else:
-                print("C")
-                self.dispVar.set(input + chr)
+                self.displayVar.set(input + chr)
 
         return x
 
     def __popFromDisplay(self):
-        self.dispVar.set(self.dispVar.get()[:-1])
+        self.displayVar.set(self.displayVar.get()[:-1])
 
     def __evalDisplay(self):
-        result = self.dispVar.get().strip()
+        result = self.displayVar.get().strip()
         result = convertToRNP(result)
         result = evaluateRNP(result)
-        self.dispVar.set(round(result, 6))
+        self.displayVar.set(round(result, 6))
 
     def __generateButtons(self):
         butValues = ['7', '8', '9', '+', '4', '5', '6', '-', '1', '2', '3', '*', '0', '(', ')', '/', '.', '^']
@@ -52,8 +49,8 @@ class App():
         self.buttons.append(Button(self.window, text='=', command=self.__evalDisplay, height=1, width=1))
 
     def __buildGUI(self):
-        self.dispVar = StringVar()
-        self.display = Entry(self.window, textvariable=self.dispVar, justify=RIGHT)
+        self.displayVar = StringVar()
+        self.display = Entry(self.window, textvariable=self.displayVar, justify=RIGHT)
         self.display.grid(row=0, column=0, columnspan=4)
         buttonsIter = iter(self.buttons)
         for x in range(5):

@@ -1,4 +1,4 @@
-def isNumber(input):
+def isNum(input):
     try:
         float(input)
     except ValueError:
@@ -60,7 +60,7 @@ def evaluateRNP(inStr):
     inStr = inStr.split(" ")
     tempStack = []
     for elem in inStr:
-        if isNumber(elem):
+        if isNum(elem):
             tempStack.append(elem)
         else:
             a = tempStack.pop()

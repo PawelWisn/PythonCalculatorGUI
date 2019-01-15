@@ -21,9 +21,11 @@ class App():
         this = self
 
         def x():
-            input = this.displayVar.get()
-            if len(input) >= 2 and isNumber(input[len(input) - 1]) and isNumber(chr):
+            input = this.displayVar.get().strip()
+            if len(input) >= 1 and isNum(input[len(input) - 1]) and isNum(chr):
                 this.displayVar.set(input + chr)
+            elif (len(input) == 1 and input[-1] == '-' and isNum(chr)) or (len(input) >= 3 and not isNum(input[-3]) and input[-1] == '-'):
+                self.displayVar.set(input + chr)
             elif input[-1:] != '.' and chr != '.':
                 this.displayVar.set(input + ' ' + chr)
             else:
@@ -36,9 +38,14 @@ class App():
 
     def __evalDisplay(self):
         result = self.displayVar.get().strip()
-        result = convertToRNP(result)
-        result = evaluateRNP(result)
-        self.displayVar.set(round(result, 6))
+        try:
+            result = convertToRNP(result)
+            result = evaluateRNP(result)
+        except IndexError:
+            print("Invalid input", file=sys.stderr)
+        except ZeroDivisionError:
+            print("Division by zero", file=sys.stderr)
+        self.displayVar.set(round(float(result), 6))
 
     def __generateButtons(self):
         butValues = ['7', '8', '9', '+', '4', '5', '6', '-', '1', '2', '3', '*', '0', '(', ')', '/', '.', '^']

@@ -1,12 +1,19 @@
 from tkinter import *
 from RPN import *
+from tkinter import font
+import inspect
+
+
+def lineno():
+    return inspect.currentframe().f_back.f_lineno
 
 
 class App():
     def __init__(self):
-        self.font = ""
+        self.font = "DejaVu Sans Mono"
         self.fontS = 11
         self.window = Tk()
+        print(list(font.families(self.window)))
         self.window.title("Calculator")
         self.window.config(width=600, height=800)
         self.window.resizable(False, False)
@@ -42,10 +49,13 @@ class App():
             result = convertToRNP(result)
             result = evaluateRNP(result)
         except IndexError:
-            print("Invalid input", file=sys.stderr)
+            print("Invalid input <line", lineno(), "> :", self.displayVar.get(), file=sys.stderr)
         except ZeroDivisionError:
-            print("Division by zero", file=sys.stderr)
-        self.displayVar.set(round(float(result), 6))
+            print("Division by zero <line", lineno(), "> :", self.displayVar.get(), file=sys.stderr)
+        try:
+            self.displayVar.set(round(float(result), 6))
+        except ValueError:
+            print("Invalid input <line", lineno(), "> :", self.displayVar.get(), file=sys.stderr)
 
     def __generateButtons(self):
         butValues = ['7', '8', '9', '+', '4', '5', '6', '-', '1', '2', '3', '*', '0', '(', ')', '/', '.', '^']
@@ -54,6 +64,8 @@ class App():
             self.buttons.append(Button(self.window, text=butValues[i], command=updateFunc, height=1, width=1))
         self.buttons.append(Button(self.window, text='D', command=self.__popFromDisplay, height=1, width=1))
         self.buttons.append(Button(self.window, text='=', command=self.__evalDisplay, height=1, width=1))
+        for button in self.buttons:
+            button.config(font=(self.font, self.fontS))
 
     def __buildGUI(self):
         self.displayVar = StringVar()

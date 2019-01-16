@@ -65,6 +65,7 @@ def evaluateRNP(inStr):
         else:
             a = tempStack.pop()
             b = tempStack.pop()
+            elem = elem if elem != '^' else '**'
             equation = str(b) + elem + str(a)
             equation = eval(equation)
             tempStack.append(equation)

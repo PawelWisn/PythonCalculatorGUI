@@ -1,6 +1,5 @@
 from tkinter import *
 from RPN import *
-from tkinter import font
 import inspect
 
 
@@ -13,7 +12,6 @@ class App():
         self.font = "DejaVu Sans Mono"
         self.fontS = 11
         self.window = Tk()
-        print(list(font.families(self.window)))
         self.window.title("Calculator")
         self.window.config(width=600, height=800)
         self.window.resizable(False, False)

@@ -1,2 +1,2 @@
 # PythonCalculatorGUI
-Python calculator with GUI using the reverse Polish notation
+Python calculator with GUI with the use of the reverse Polish notation
